@@ -23,3 +23,14 @@ class BookModel(db.Model):
         ratings = [review.rating for review in reviews if review.rating is not None]
         self.average_rating = sum(ratings) / len(ratings) if ratings else 0.0
         db.session.commit()
+
+    @classmethod
+    def search_books(cls, title=None, author=None, genre=None):
+        query = cls.query
+        if title:
+            query = query.filter(cls.title.ilike(f"%{title}%"))
+        if author:
+            query = query.filter(cls.author.ilike(f"%{author}%"))
+        if genre:
+            query = query.filter(cls.genre.ilike(f"%{genre}%"))
+        return query.all()

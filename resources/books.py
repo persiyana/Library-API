@@ -2,25 +2,42 @@ from flask_restful import reqparse, Resource
 from flask_jwt_extended import jwt_required, get_jwt_identity
 from models.book_model import BookModel
 from models.user_model import UserModel
-from extensions import db
+from models import db
 
 class Books(Resource):
     @jwt_required()
-    def get(self, book_id):
+    def get(self, book_id = None):
         book = BookModel.query.get(book_id)
-        if not book:
-            return {'message': 'Book not found'}, 404
+        if book_id:
+            book = BookModel.query.get(book_id)
+            if not book:
+                return {'message': 'Book not found'}, 404
 
-        reviews = [{'user_name': review.user.name, 'rating': review.rating, 'review_text': review.review_text} for review in book.reviews]
-        return {
-            'id': book.id,
-            'title': book.title,
-            'author': book.author,
-            'genre': book.genre,
-            'description': book.description,
-            'average_rating': book.average_rating,
-            'reviews' : reviews
-        }, 200
+            reviews = [{'user_name': review.user.name, 'rating': review.rating, 'review_text': review.review_text} for review in book.reviews]
+            return {
+                'id': book.id,
+                'title': book.title,
+                'author': book.author,
+                'genre': book.genre,
+                'description': book.description,
+                'average_rating': book.average_rating,
+                'reviews': reviews
+            }, 200
+        
+        parser = reqparse.RequestParser()
+        parser.add_argument('title', type=str)
+        parser.add_argument('author', type=str)
+        parser.add_argument('genre', type=str)
+        args = parser.parse_args()
+
+        
+        books = BookModel.search_books(args['title'], args['author'], args['genre'])
+        
+        if not books:
+            return {'message': 'No books found matching the search criteria'}, 404
+
+        return [{'id': book.id, 'title': book.title, 'author': book.author, 'genre': book.genre} for book in books], 200
+
 
     @jwt_required() 
     def post(self):

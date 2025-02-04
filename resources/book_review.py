@@ -3,7 +3,7 @@ from flask_jwt_extended import jwt_required, get_jwt_identity
 from models.user_model import UserModel
 from models.review_model import ReviewModel
 from models.book_model import BookModel
-from extensions import db
+from models import db
 
 class BookReview(Resource):
     @jwt_required()

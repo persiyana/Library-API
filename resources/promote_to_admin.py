@@ -1,7 +1,7 @@
 from flask_restful import reqparse, Resource
 from flask_jwt_extended import jwt_required, get_jwt_identity
 from models.user_model import UserModel
-from extensions import db
+from models import db
 
 class PromoteToAdmin(Resource):
     @jwt_required()

@@ -1,6 +1,6 @@
 from flask_restful import Resource, reqparse
 from werkzeug.security import generate_password_hash
-from extensions import db
+from models import db
 from models.user_model import UserModel
 
 class Register(Resource):
