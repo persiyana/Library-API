@@ -1,13 +1,33 @@
+"""
+Data seeding module for initializing the library database.
+
+This module contains functions to create and populate the database with
+admin users, regular users, books, reviews, and user library records.
+It ensures the system is seeded with essential data for testing and
+development purposes.
+
+Functions:
+    create_admin_users(): Adds predefined admin users to the database.
+    create_users(): Adds regular users to the database.
+    create_books(): Adds a list of books with titles, authors, and genres.
+    create_reviews(): Generates random reviews for books from users.
+    create_user_libraries(): Creates user library records with reading statuses.
+"""
+import random
 from main import app, db
 from models.user_model import UserModel
 from models.book_model import BookModel
 from models.review_model import ReviewModel
 from models.user_library_model import UserLibraryModel
-from werkzeug.security import generate_password_hash
-import random
+
 
 def create_admin_users():
-    """Create multiple admin users."""
+    """
+    Create multiple admin users if they do not already exist in the database.
+
+    Admin users are defined by their email addresses and are assigned 
+    the role "admin". The password for all admin users is "admin123".
+    """
     admin_emails = [
         "admin@gmail.com",
         "superadmin@gmail.com",
@@ -20,7 +40,7 @@ def create_admin_users():
         existing_admin = UserModel.query.filter_by(email=email).first()
         if not existing_admin:
             admin_user = UserModel(
-                name=email.split("@")[0].capitalize(),
+                name=email.split("@", maxsplit=1)[0].capitalize(),
                 email=email,
                 password="admin123",
                 role="admin"
@@ -30,7 +50,12 @@ def create_admin_users():
     db.session.commit()
 
 def create_users():
-    """Create multiple regular users."""
+    """
+    Create multiple regular users if they do not already exist in the database.
+
+    Regular users are defined by a list of names and email addresses.
+    The password for all users is "password123", and they are assigned the role "user".
+    """
     users = [
         {"name": "Alice", "email": "alice@example.com"},
         {"name": "Bob", "email": "bob@example.com"},
@@ -58,7 +83,13 @@ def create_users():
     db.session.commit()
 
 def create_books():
-    """Create multiple books."""
+    """
+    Create multiple books if they do not already exist in the database.
+
+    The book data includes titles, authors, and genres.
+    A default description is generated for each book based on its author and genre.
+    """
+
     book_data = [
         ("The Great Gatsby", "F. Scott Fitzgerald", "Fiction"),
         ("1984", "George Orwell", "Dystopian"),
@@ -115,18 +146,23 @@ def create_books():
     for title, author, genre in book_data:
         existing_book = BookModel.query.filter_by(title=title, author=author).first()
         if not existing_book:
-            new_book = BookModel(
-                title=title,
-                author=author,
-                genre=genre,
-                description=f"A compelling story by {author} in the {genre} genre."
+            new_book = BookModel({
+                'title': title,
+                'author': author,
+                'genre': genre,
+                'description': f"A compelling story by {author} in the {genre} genre."}
             )
             db.session.add(new_book)
 
     db.session.commit()
 
 def create_reviews():
-    """Create multiple reviews for books."""
+    """
+    Create multiple reviews for books from random users.
+
+    Reviews are assigned random ratings from 1 to 5, along with randomly 
+    selected review texts. Each book receives reviews from 2 to 5 users.
+    """
     users = UserModel.query.all()
     books = BookModel.query.all()
 
@@ -148,7 +184,8 @@ def create_reviews():
 
             existing_review = ReviewModel.query.filter_by(user_id=user.id, book_id=book.id).first()
             if not existing_review:
-                new_review = ReviewModel(user_id=user.id, book_id=book.id, rating=rating, review_text=review_text)
+                new_review = ReviewModel(user_id=user.id, book_id=book.id,
+                                         rating=rating, review_text=review_text)
                 db.session.add(new_review)
 
     db.session.commit()
@@ -157,7 +194,12 @@ def create_reviews():
 
 
 def create_user_libraries():
-    """Create user libraries with reading statuses."""
+    """
+    Create user libraries with reading statuses.
+
+    Each user is assigned a random selection of books with statuses such as 
+    "reading", "completed", or "wishlist".
+    """
     users = UserModel.query.all()
     books = BookModel.query.all()
     statuses = ["reading", "completed", "wishlist"]
@@ -166,7 +208,8 @@ def create_user_libraries():
         for book in random.sample(books, k=random.randint(3, 7)):
             status = random.choice(statuses)
 
-            existing_entry = UserLibraryModel.query.filter_by(user_id=user.id, book_id=book.id).first()
+            existing_entry = UserLibraryModel.query.filter_by(
+                user_id=user.id, book_id=book.id).first()
             if not existing_entry:
                 new_entry = UserLibraryModel(user_id=user.id, book_id=book.id, status=status)
                 db.session.add(new_entry)

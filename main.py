@@ -1,8 +1,37 @@
-from flask import Flask, render_template, request, jsonify, redirect, url_for, session, flash
+"""
+Library Management API.
+
+This module initializes a Flask application with RESTful API endpoints for:
+- User registration and authentication.
+- User profile management.
+- Book retrieval and review functionality.
+- User library management.
+- Admin promotion.
+
+The API uses SQLite as the database and JWT for authentication.
+
+Routes:
+    - /api/register/ : Register a new user.
+    - /api/login/ : User login with JWT token generation.
+    - /api/profile/ : Retrieve user profile information.
+    - /api/books/ : Fetch all books or a specific book by ID.
+    - /api/books/<book_id>/review/ : Submit a book review.
+    - /api/library/ : Manage user's book reading statuses.
+    - /api/promote-to-admin/ : Promote a user to admin role.
+
+Dependencies:
+    - Flask
+    - Flask-RESTful
+    - Flask-JWT-Extended
+    - SQLAlchemy
+"""
+import os
 import requests
+
+from flask import Flask, request, jsonify
 from flask_restful import Api
 from flask_jwt_extended import JWTManager
-import os
+
 
 from models import db
 from resources.register import Register
@@ -31,6 +60,19 @@ api.add_resource(PromoteToAdmin, '/api/promote-to-admin/')
 
 @app.route('/books', methods=['GET'])
 def get_books():
+    """
+    Retrieve books based on optional query parameters (title, author, genre).
+
+    This route proxies the request to the backend API and returns the book list.
+
+    Query Parameters:
+        title (str, optional): Filter books by title.
+        author (str, optional): Filter books by author.
+        genre (str, optional): Filter books by genre.
+
+    Returns:
+        JSON response with book data or an error message if no books are found.
+    """
     title = request.args.get('title')
     author = request.args.get('author')
     genre = request.args.get('genre')
@@ -43,7 +85,7 @@ def get_books():
     if genre:
         params['genre'] = genre
 
-    response = requests.get('http://localhost:5000/api/books/', params=params)
+    response = requests.get('http://localhost:5000/api/books/', params=params, timeout = 5)
 
     if response.status_code == 404:
         return jsonify({'message': 'No books found'}), 404
