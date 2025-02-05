@@ -19,5 +19,11 @@ class ReviewModel(db.Model):
     def save_review(self, rating, review_text):
         self.rating = rating
         self.review_text = review_text
+        db.session.add(self) 
         db.session.commit()
-        self.book.update_average_rating()
+
+        from models.book_model import BookModel  
+
+        book = db.session.get(BookModel, self.book_id)
+        if book:
+            book.update_average_rating()

@@ -15,10 +15,10 @@ class PromoteToAdmin(Resource):
             return {'message': 'You must be an admin to perform this action'}, 403
 
         args = reqparse.RequestParser()
-        args.add_argument('username', type=str, required=True, help='Username of the user to promote')
+        args.add_argument('email', type=str, required=True, help='Email of the user to promote')
         data = args.parse_args()
 
-        user_to_promote = UserModel.query.filter_by(name=data['username']).first()
+        user_to_promote = UserModel.query.filter_by(email=data['email']).first()
 
         if not user_to_promote:
             return {'message': 'User not found'}, 404
@@ -29,4 +29,4 @@ class PromoteToAdmin(Resource):
         user_to_promote.role = 'admin'
         db.session.commit()
 
-        return {'message': f'User {data["username"]} has been promoted to admin'}, 200
+        return {'message': f'User {data["email"]} has been promoted to admin'}, 200

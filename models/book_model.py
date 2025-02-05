@@ -8,7 +8,7 @@ class BookModel(db.Model):
     genre = db.Column(db.String(50), nullable=False)
     description = db.Column(db.Text, nullable=True)
     average_rating = db.Column(db.Float, default=0.0)
-    reviews = db.relationship('ReviewModel', back_populates='book', lazy=True)
+    reviews = db.relationship('ReviewModel', back_populates='book', lazy='dynamic')
 
     def __init__(self, title, author, genre, description=None, average_rating=0.0):
         self.title = title

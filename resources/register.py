@@ -14,7 +14,7 @@ class Register(Resource):
         if UserModel.query.filter_by(email=data['email']).first():
             return {'message': 'Email already registered'}, 400
 
-        user = UserModel(name=data['name'], email=data['email'], password=generate_password_hash(data['password']))
+        user = UserModel(name=data['name'], email=data['email'], password=data['password'])
         db.session.add(user)
         db.session.commit()
         return {'message': 'User registered successfully'}, 201
