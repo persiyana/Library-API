@@ -5,16 +5,9 @@ This module contains functions to create and populate the database with
 admin users, regular users, books, reviews, and user library records.
 It ensures the system is seeded with essential data for testing and
 development purposes.
-
-Functions:
-    create_admin_users(): Adds predefined admin users to the database.
-    create_users(): Adds regular users to the database.
-    create_books(): Adds a list of books with titles, authors, and genres.
-    create_reviews(): Generates random reviews for books from users.
-    create_user_libraries(): Creates user library records with reading statuses.
 """
 import random
-from main import app, db
+from main import create_app, db
 from models.user_model import UserModel
 from models.book_model import BookModel
 from models.review_model import ReviewModel
@@ -216,6 +209,7 @@ def create_user_libraries():
 
     db.session.commit()
 
+app = create_app()
 with app.app_context():
     db.create_all()
     create_admin_users()

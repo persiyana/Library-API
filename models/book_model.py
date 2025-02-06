@@ -2,14 +2,6 @@
 This module defines the `BookModel` class, which represents the structure of a book in the database.
 It is used to interact with the `books` table in the database, allowing CRUD operations, 
 rating updates, and book search.
-
-Modules:
-    - db: The SQLAlchemy instance to interact with the database.
-    - ReviewModel: The model for reviews related to books.
-
-Classes:
-    - BookModel: Represents a book in the library with attributes like title, author, genre, 
-    description, and average_rating.
 """
 from models import db
 from models.review_model import ReviewModel
@@ -17,24 +9,7 @@ from models.review_model import ReviewModel
 class BookModel(db.Model):
     """
     Represents a book in the library with its details, reviews, and average rating.
-
-    Attributes:
-        id (int): The unique identifier of the book.
-        title (str): The title of the book.
-        author (str): The author of the book.
-        genre (str): The genre of the book.
-        description (str): A short description of the book.
-        average_rating (float): The average rating of the book, calculated from reviews.
-        reviews (relationship): The relationship between the book and its reviews.
-
-    Methods:
-        __init__(title, author, genre, description=None, average_rating=0.0): Initializes a new 
-        BookModel instance.
-        update_average_rating(): Updates the average rating of the book based on its reviews.
-        search_books(title=None, author=None, genre=None): Searches for books by title, author, 
-        or genre.
     """
-
     id = db.Column(db.Integer, primary_key=True)
     title = db.Column(db.String(100), nullable=False)
     author = db.Column(db.String(100), nullable=False)
@@ -46,14 +21,6 @@ class BookModel(db.Model):
     def __init__(self, book_data):
         """
         Initializes a new BookModel instance with the provided details.
-
-        Args:
-            book_data (dict): A dictionary containing the book details. Keys should include:
-                - title (str): The title of the book.
-                - author (str): The author of the book.
-                - genre (str): The genre of the book.
-                - description (str, optional): A short description of the book. Defaults to None.
-                - average_rating (float, optional): The average rating of the book. Defaults to 0.0.
         """
         self.title = book_data.get('title')
         self.author = book_data.get('author')
@@ -81,14 +48,6 @@ class BookModel(db.Model):
     def search_books(cls, title=None, author=None, genre=None):
         """
         Searches for books based on the provided search criteria.
-
-        Args:
-            title (str, optional): The title of the book to search for. Defaults to None.
-            author (str, optional): The author of the book to search for. Defaults to None.
-            genre (str, optional): The genre of the book to search for. Defaults to None.
-
-        Returns:
-            list: A list of books that match the search criteria.
         """
         query = cls.query
         if title:
