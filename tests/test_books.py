@@ -2,75 +2,9 @@
 This module contains tests for the BookModel CRUD operations,
 user authentication, and authorization.
 """
-import pytest
-from flask_jwt_extended import create_access_token
-from main import create_app
 from models import db
 from models.book_model import BookModel
 from models.user_model import UserModel
-
-@pytest.fixture(name="app")
-def app_fixture():
-    """
-    Fixture that initializes the Flask application in testing mode.
-    It configures the app to use a test database and provides an app instance for the test cases.
-    """
-    app = create_app(config="testing")
-
-    with app.app_context():
-        db.create_all()
-    yield app
-    with app.app_context():
-        db.drop_all()
-
-@pytest.fixture(name="init_db")
-def init_db_fixture(app):
-    """
-    Fixture that initializes the test database with a sample user and book.
-    Creates an instance of a user and a book in the database, and yields the database session.
-    This ensures a fresh database setup before each test case.
-    """
-    with app.app_context():
-        db.create_all()
-
-        user = UserModel(name="Test User", email="testuser@example.com", password="password123")
-        db.session.add(user)
-        db.session.commit()
-
-        sample_book = BookModel({
-            'title': 'Test Book',
-            'author': 'Test Author',
-            'genre': 'Test Genre',
-            'description': 'Test Description'
-        })
-        db.session.add(sample_book)
-        db.session.commit()
-
-        yield db
-
-        db.session.remove()
-        db.drop_all()
-
-@pytest.fixture(name="client")
-def client_fixture(app):
-    """
-    Fixture that provides a test client for sending HTTP requests to the application.
-
-    This fixture initializes the Flask test client which allows simulating HTTP requests 
-    to the app during testing. The client can be used to send requests like GET, POST, 
-    PATCH, DELETE, etc., and retrieve responses for assertions.
-    """
-    return app.test_client()
-
-@pytest.fixture(name="access_token")
-def access_token_fixture():
-    """
-    Fixture that creates a JWT token for authenticating requests.
-    """
-    user = UserModel.query.first()
-    assert user is not None, "No user found in the database"
-    return create_access_token(identity=user.id)
-
 
 def test_create_book(init_db, client, access_token):
     """

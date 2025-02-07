@@ -1,61 +1,9 @@
 """
-This module contains tests for the BookModel class and related functionality 
-such as creating and updating books, adding reviews, and searching books.
+Tests for the BookModel class and related functionality.
 """
-import pytest
-from models import db
-from models.book_model import BookModel
-from models.user_model import UserModel
 from models.review_model import ReviewModel
-from main import create_app
-
-
-@pytest.fixture(name="test_app_client")
-def test_app_client_fixture():
-    """Create a test client with a fresh database."""
-
-    app = create_app("testing")
-
-    with app.app_context():
-        db.create_all()
-        yield app.test_client()
-        db.drop_all()
-
-
-@pytest.fixture(name="book")
-def book_fixture(test_app_client):
-    """Create a sample book."""
-    book_data = {'title': "Test Book", 'author': "Test Author", 'genre': "Fiction"}
-    book = BookModel(book_data)
-    with test_app_client.application.app_context():
-        db.session.add(book)
-        db.session.commit()
-        db.session.refresh(book)
-    return book
-
-
-@pytest.fixture(name="user")
-def user_fixture(test_app_client):
-    """Create a sample user."""
-    user = UserModel(name="Test User", email="testuser@example.com", password="password123")
-    with test_app_client.application.app_context():
-        db.session.add(user)
-        db.session.commit()
-        db.session.refresh(user)
-    return user
-
-
-@pytest.fixture(name="review")
-def review_fixture(test_app_client, user, book):
-    """Create a sample review for a book."""
-    review = ReviewModel(user_id=user.id, book_id=book.id,
-                         rating=4, review_text="Great book!")
-    with test_app_client.application.app_context():
-        db.session.add(review)
-        db.session.commit()
-        db.session.refresh(review)
-    return review
-
+from models.book_model import BookModel
+from models import db
 
 def test_create_book(book):
     """Test creating and saving a book."""
