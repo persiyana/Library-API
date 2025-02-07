@@ -7,6 +7,7 @@ from flask_restful import reqparse, Resource
 from flask_jwt_extended import jwt_required, get_jwt_identity
 from models.book_model import BookModel
 from models.user_model import UserModel
+from models.user_library_model import UserLibraryModel
 from models import db
 
 class Books(Resource):
@@ -140,6 +141,10 @@ class Books(Resource):
         book = db.session.get(BookModel, book_id)
         if not book:
             return {'message': 'Book not found'}, 404
+
+        user_libraries = UserLibraryModel.query.filter_by(book_id=book.id).all()
+        for user_library in user_libraries:
+            db.session.delete(user_library)
 
         db.session.delete(book)
         db.session.commit()

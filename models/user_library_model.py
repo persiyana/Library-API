@@ -17,7 +17,6 @@ class UserLibraryModel(db.Model):
     status = db.Column(db.String(20), nullable=False)
 
     user = db.relationship('UserModel', backref=db.backref('library', lazy=True))
-    book = db.relationship('BookModel', backref=db.backref('user_libraries', lazy=True))
 
     def __init__(self, user_id, book_id, status):
         """

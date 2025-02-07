@@ -23,11 +23,11 @@ class UserLibrary(Resource):
         current_user_id = get_jwt_identity()
 
         read_books = UserLibraryModel.query.filter_by(user_id=current_user_id,
-                                                      status="Прочетени").all()
+                                                      status="completed").all()
         reading_books = UserLibraryModel.query.filter_by(user_id=current_user_id,
-                                                         status="Чета в момента").all()
+                                                         status="reading").all()
         want_to_read_books = UserLibraryModel.query.filter_by(user_id=current_user_id,
-                                                              status="Искам да прочета").all()
+                                                              status="wishlist").all()
 
         return {
             'read_books': [{
@@ -53,10 +53,10 @@ class UserLibrary(Resource):
         args = reqparse.RequestParser()
         args.add_argument('book_id', type=int, required=True, help='Book ID is required')
         args.add_argument('status', type=str, required=True,
-                          help='Status (Прочетени, Чета в момента, Искам да прочета)')
+                          help='Status (completed, wishlist, reading)')
         data = args.parse_args()
 
-        if data['status'] not in ["Прочетени", "Чета в момента", "Искам да прочета"]:
+        if data['status'] not in ["completed", "wishlist", "reading"]:
             return {'message': 'Invalid status'}, 400
 
         existing_entry = UserLibraryModel.query.filter_by(user_id=current_user_id,
@@ -75,7 +75,7 @@ class UserLibrary(Resource):
         return {'message': f'Book added to library with status {data["status"]}'}, 201
 
     @jwt_required()
-    def patch(self):
+    def patch(self, book_id):
         """
         Handles the PATCH request to update the status of a book in the user's library.
         
@@ -84,16 +84,15 @@ class UserLibrary(Resource):
         """
         current_user_id = get_jwt_identity()
         args = reqparse.RequestParser()
-        args.add_argument('book_id', type=int, required=True, help='Book ID is required')
         args.add_argument('new_status', type=str, required=True,
-                          help='New status (Прочетени, Чета в момента, Искам да прочета)')
+                          help='New status (completed, wishlist, reading)')
         data = args.parse_args()
 
-        if data['new_status'] not in ["Прочетени", "Чета в момента", "Искам да прочета"]:
+        if data['new_status'] not in ["completed", "wishlist", "reading"]:
             return {'message': 'Invalid status'}, 400
 
         user_library_entry = UserLibraryModel.query.filter_by(user_id=current_user_id,
-                                                              book_id=data['book_id']).first()
+                                                              book_id=book_id).first()
         if not user_library_entry:
             return {'message': 'Book not found in your library'}, 404
 
@@ -103,19 +102,16 @@ class UserLibrary(Resource):
         return {'message': f'Book status updated to {data["new_status"]}'}, 200
 
     @jwt_required()
-    def delete(self):
+    def delete(self, book_id):
         """
         Handles the DELETE request to remove a book from the user's library.
         
         The method checks if the book exists in the library. If it does, the book is deleted.
         """
         current_user_id = get_jwt_identity()
-        args = reqparse.RequestParser()
-        args.add_argument('book_id', type=int, required=True, help='Book ID is required')
-        data = args.parse_args()
 
         user_library_entry = UserLibraryModel.query.filter_by(user_id=current_user_id,
-                                                              book_id=data['book_id']).first()
+                                                              book_id=book_id).first()
 
         if not user_library_entry:
             return {'message': 'Book not found in your library'}, 404

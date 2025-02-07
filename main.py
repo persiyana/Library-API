@@ -30,13 +30,14 @@ def create_app(config="default"):
     db.init_app(app)
     api = Api(app)
     jwt = JWTManager(app)
+    _ = jwt
 
     api.add_resource(Register, '/api/register/')
     api.add_resource(Login, '/api/login/')
     api.add_resource(UserProfile, '/api/profile/')
     api.add_resource(Books, '/api/books/', '/api/books/<int:book_id>/')
     api.add_resource(BookReview, '/api/books/<int:book_id>/review/')
-    api.add_resource(UserLibrary, '/api/library/')
+    api.add_resource(UserLibrary, '/api/library/', '/api/library/<int:book_id>/')
     api.add_resource(PromoteToAdmin, '/api/promote-to-admin/')
 
     @app.route('/books', methods=['GET'])

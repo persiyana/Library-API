@@ -16,7 +16,16 @@ class BookModel(db.Model):
     genre = db.Column(db.String(50), nullable=False)
     description = db.Column(db.Text, nullable=True)
     average_rating = db.Column(db.Float, default=0.0)
-    reviews = db.relationship('ReviewModel', back_populates='book', lazy='dynamic')
+    reviews = db.relationship(
+        'ReviewModel',
+        back_populates='book',
+        lazy='dynamic',
+        cascade='all, delete-orphan'
+    )
+    user_libraries = db.relationship('UserLibraryModel',
+                                     backref='book',
+                                     cascade='all, delete-orphan',
+                                     lazy=True)
 
     def __init__(self, book_data):
         """
