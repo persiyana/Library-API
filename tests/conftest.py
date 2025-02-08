@@ -215,7 +215,7 @@ def new_user_fixture():
     Fixture that creates a new user instance with predefined data.
     This fixture can be used to test user-related functionality.
     """
-    return UserModel(name="TestUser", email="testuser@example.com", password="password123")
+    return UserModel(name="Test User", email="testuser@example.com", password="password123")
 
 @pytest.fixture(name="user_library_entry")
 def user_library_entry_fixture():
