@@ -4,12 +4,18 @@ It is used to interact with the `users` table, allowing for user creation, passw
 and role-based authorization.
 """
 import re
+from typing import TYPE_CHECKING
 from werkzeug.security import generate_password_hash, check_password_hash
 from sqlalchemy.exc import SQLAlchemyError
 from models import db
 from utils.validators import validate_required_fields
 
-class UserModel(db.Model):
+if TYPE_CHECKING:
+    from flask_sqlalchemy.model import Model
+else:
+    Model = db.Model
+
+class UserModel(Model):
     """
     Represents a user in the system with their details, such as name, email, password, and role.
     """

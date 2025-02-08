@@ -4,12 +4,18 @@ It is used to interact with the `books` table in the database, allowing CRUD ope
 rating updates, and book search.
 """
 import logging
+from typing import TYPE_CHECKING
 from sqlalchemy.exc import SQLAlchemyError
 from models import db
 from models.review_model import ReviewModel
 from utils.validators import validate_required_fields
 
-class BookModel(db.Model):
+if TYPE_CHECKING:
+    from flask_sqlalchemy.model import Model
+else:
+    Model = db.Model
+
+class BookModel(Model):
     """
     Represents a book in the library with its details, reviews, and average rating.
     """

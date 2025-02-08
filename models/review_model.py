@@ -5,11 +5,17 @@ average rating when a new review is saved.
 """
 import importlib
 import logging
+from typing import TYPE_CHECKING
 from sqlalchemy.exc import SQLAlchemyError
 from models import db
 from utils.validators import validate_required_fields
 
-class ReviewModel(db.Model):
+if TYPE_CHECKING:
+    from flask_sqlalchemy.model import Model
+else:
+    Model = db.Model
+
+class ReviewModel(Model):
     """
     Represents a review made by a user for a specific book.
     """

@@ -1,3 +1,14 @@
 .venv
 .env
-instance
+instance/
+*.db
+__pycache__/
+*.pyc
+*.pyo
+.venv/
+venv/
+ENV/
+env/
+.vscode/
+.coverage/
+.coverage

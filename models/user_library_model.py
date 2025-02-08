@@ -5,11 +5,17 @@ It tracks the books that users have in their library along with the reading stat
 (e.g., "reading", "finished").
 """
 import logging
+from typing import TYPE_CHECKING
 from sqlalchemy.exc import SQLAlchemyError
 from models import db
 from utils.validators import validate_required_fields
 
-class UserLibraryModel(db.Model):
+if TYPE_CHECKING:
+    from flask_sqlalchemy.model import Model
+else:
+    Model = db.Model
+
+class UserLibraryModel(Model):
     """
     Represents a user's library, which stores the books associated with a user and their 
     reading status.
