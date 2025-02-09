@@ -6,9 +6,9 @@ rating updates, and book search.
 import logging
 from typing import TYPE_CHECKING
 from sqlalchemy.exc import SQLAlchemyError
-from models import db
-from models.review_model import ReviewModel
-from utils.validators import validate_required_fields
+from src.models import db
+from src.models.review_model import ReviewModel
+from src.utils.validators import validate_required_fields
 
 if TYPE_CHECKING:
     from flask_sqlalchemy.model import Model

@@ -4,8 +4,8 @@ It uses Flask-RESTful for API functionality and JWT for user authentication.
 """
 from flask_restful import reqparse, Resource
 from flask_jwt_extended import jwt_required, get_jwt_identity
-from models.user_model import UserModel
-from models import db
+from src.models.user_model import UserModel
+from src.models import db
 
 class PromoteToAdmin(Resource):
     """

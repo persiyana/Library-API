@@ -3,11 +3,11 @@ Configuration and shared fixtures for tests.
 """
 import pytest
 from flask_jwt_extended import create_access_token
-from models import db
-from models.book_model import BookModel
-from models.user_model import UserModel
-from models.review_model import ReviewModel
-from models.user_library_model import UserLibraryModel
+from src.models import db
+from src.models.book_model import BookModel
+from src.models.user_model import UserModel
+from src.models.review_model import ReviewModel
+from src.models.user_library_model import UserLibraryModel
 from main import create_app
 
 @pytest.fixture(name="test_app_client")

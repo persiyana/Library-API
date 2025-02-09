@@ -8,10 +8,10 @@ development purposes.
 """
 import random
 from main import create_app, db
-from models.user_model import UserModel
-from models.book_model import BookModel
-from models.review_model import ReviewModel
-from models.user_library_model import UserLibraryModel
+from src.models.user_model import UserModel
+from src.models.book_model import BookModel
+from src.models.review_model import ReviewModel
+from src.models.user_library_model import UserLibraryModel
 
 
 def create_admin_users():

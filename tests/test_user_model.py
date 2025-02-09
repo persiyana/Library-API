@@ -5,8 +5,8 @@ password verification, and password change functionality.
 import pytest
 from sqlalchemy.exc import IntegrityError,  SQLAlchemyError
 from werkzeug.security import check_password_hash
-from models import db
-from models.user_model import UserModel
+from src.models import db
+from src.models.user_model import UserModel
 
 def test_user_creation(new_user):
     """

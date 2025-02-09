@@ -5,10 +5,10 @@ and uses JWT authentication.
 """
 from flask_restful import reqparse, Resource
 from flask_jwt_extended import jwt_required, get_jwt_identity
-from models.book_model import BookModel
-from models.user_model import UserModel
-from models.user_library_model import UserLibraryModel
-from models import db
+from src.models.book_model import BookModel
+from src.models.user_model import UserModel
+from src.models.user_library_model import UserLibraryModel
+from src.models import db
 
 class Books(Resource):
     """

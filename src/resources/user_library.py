@@ -4,8 +4,8 @@ It allows users to add, update, retrieve, and delete books in their personal lib
 """
 from flask_restful import reqparse, Resource
 from flask_jwt_extended import jwt_required, get_jwt_identity
-from models.user_library_model import UserLibraryModel
-from models import db
+from src.models.user_library_model import UserLibraryModel
+from src.models import db
 
 class UserLibrary(Resource):
     """

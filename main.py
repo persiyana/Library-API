@@ -8,14 +8,14 @@ from flask import Flask, request, jsonify, Response
 from flask_restful import Api
 from flask_jwt_extended import JWTManager
 
-from models import db
-from resources.register import Register
-from resources.login import Login
-from resources.user_profile import UserProfile
-from resources.books import Books
-from resources.book_review import BookReview
-from resources.user_library import UserLibrary
-from resources.promote_to_admin import PromoteToAdmin
+from src.models import db
+from src.resources.register import Register
+from src.resources.login import Login
+from src.resources.user_profile import UserProfile
+from src.resources.books import Books
+from src.resources.book_review import BookReview
+from src.resources.user_library import UserLibrary
+from src.resources.promote_to_admin import PromoteToAdmin
 
 def create_app(config="default"):
     """Application factory to create app instances dynamically."""

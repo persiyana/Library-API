@@ -5,7 +5,7 @@ It uses Flask-RESTful for API functionality and JWT for user session management.
 from flask_restful import Resource, reqparse
 from flask_jwt_extended import create_access_token
 from werkzeug.security import check_password_hash
-from models.user_model import UserModel
+from src.models.user_model import UserModel
 
 class Login(Resource):
     """

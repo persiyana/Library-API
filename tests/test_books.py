@@ -2,9 +2,9 @@
 This module contains tests for the BookModel CRUD operations,
 user authentication, and authorization.
 """
-from models import db
-from models.book_model import BookModel
-from models.user_model import UserModel
+from src.models import db
+from src.models.book_model import BookModel
+from src.models.user_model import UserModel
 
 def test_create_book(init_db, client, access_token):
     """

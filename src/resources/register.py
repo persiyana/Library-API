@@ -3,8 +3,8 @@ This module defines the `Register` resource for user registration.
 It uses Flask-RESTful to handle API requests and SQLAlchemy for database interaction.
 """
 from flask_restful import Resource, reqparse
-from models import db
-from models.user_model import UserModel
+from src.models import db
+from src.models.user_model import UserModel
 
 class Register(Resource):
     """

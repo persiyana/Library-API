@@ -29,7 +29,7 @@ A web application with REST API for managing a personal book library. It has the
 2. Create virtual enviroment `py -m venv .venv`
 3. Activate the virtual enviroment `.venv/Scripts/Activate.ps1`
 4. Install the requirements `pip install -r requirements.txt`
-5. Create the database `py create_db.py`
+5. Create the database `py src/create_db.py`
 6. Run the program `py main.py`
 ## Example usage
 ### You should test the program by a platform for using API for example Postman

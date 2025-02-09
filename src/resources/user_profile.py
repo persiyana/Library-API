@@ -4,9 +4,9 @@ information about their profile, including their library and reviews.
 """
 from flask_restful import Resource
 from flask_jwt_extended import jwt_required, get_jwt_identity
-from models.user_library_model import UserLibraryModel
-from models.user_model import UserModel
-from models.review_model import ReviewModel
+from src.models.user_library_model import UserLibraryModel
+from src.models.user_model import UserModel
+from src.models.review_model import ReviewModel
 
 class UserProfile(Resource):
     """

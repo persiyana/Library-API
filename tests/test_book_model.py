@@ -3,10 +3,10 @@ Tests for the BookModel class and related functionality.
 """
 import pytest
 from sqlalchemy.exc import SQLAlchemyError
-from models.review_model import ReviewModel
-from models.book_model import BookModel
-from models.user_model import UserModel
-from models import db
+from src.models.review_model import ReviewModel
+from src.models.book_model import BookModel
+from src.models.user_model import UserModel
+from src.models import db
 
 def test_create_book(book):
     """Test creating and saving a book."""

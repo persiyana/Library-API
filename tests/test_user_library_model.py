@@ -6,8 +6,8 @@ password update, and user library management.
 import pytest
 from sqlalchemy.exc import SQLAlchemyError
 from werkzeug.security import check_password_hash
-from models import db
-from models.user_library_model import UserLibraryModel
+from src.models import db
+from src.models.user_library_model import UserLibraryModel
 
 def test_create_user(new_user):
     """Test user creation and password hashing"""

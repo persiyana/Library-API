@@ -7,8 +7,8 @@ It tracks the books that users have in their library along with the reading stat
 import logging
 from typing import TYPE_CHECKING
 from sqlalchemy.exc import SQLAlchemyError
-from models import db
-from utils.validators import validate_required_fields
+from src.models import db
+from src.utils.validators import validate_required_fields
 
 if TYPE_CHECKING:
     from flask_sqlalchemy.model import Model

@@ -3,9 +3,9 @@ This module contains test cases for the review functionality in the Flask applic
 """
 import pytest
 from sqlalchemy.exc import SQLAlchemyError
-from models import db
-from models.review_model import ReviewModel
-from models.book_model import BookModel
+from src.models import db
+from src.models.review_model import ReviewModel
+from src.models.book_model import BookModel
 
 def test_create_review(test_client2, sample_user, sample_book):
     """Test creating a new review"""

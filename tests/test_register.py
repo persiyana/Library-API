@@ -1,7 +1,7 @@
 """
 This module contains tests for the user registration functionality in the Flask application.
 """
-from models.user_model import UserModel
+from src.models.user_model import UserModel
 
 def test_register_user_success(client, new_user_data):
     """Test registering a user successfully."""

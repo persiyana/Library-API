@@ -4,10 +4,10 @@ which allows users to submit reviews for a specific book.
 """
 from flask_restful import reqparse, Resource
 from flask_jwt_extended import jwt_required, get_jwt_identity
-from models.user_model import UserModel
-from models.review_model import ReviewModel
-from models.book_model import BookModel
-from models import db
+from src.models.user_model import UserModel
+from src.models.review_model import ReviewModel
+from src.models.book_model import BookModel
+from src.models import db
 class BookReview(Resource):
     """
     Represents the resource for submitting a review for a specific book.

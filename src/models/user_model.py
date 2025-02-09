@@ -7,8 +7,8 @@ import re
 from typing import TYPE_CHECKING
 from werkzeug.security import generate_password_hash, check_password_hash
 from sqlalchemy.exc import SQLAlchemyError
-from models import db
-from utils.validators import validate_required_fields
+from src.models import db
+from src.utils.validators import validate_required_fields
 
 if TYPE_CHECKING:
     from flask_sqlalchemy.model import Model
